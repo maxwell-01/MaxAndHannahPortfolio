@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { Home } from './features/home-page/Home';
+import { About } from './features/home-page/About';
+import { Project } from './features/home-page/Project';
+import { NotFound } from './features/NotFound';
+import { Layout } from './features/home-page/Layout';
+import { Login } from './features/home-page/Login';
 
-function App() {
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <Route path={'/'} element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path={'/about'} element={<About />} />
+          <Route path={'/projects'}>
+            <Route index element={<Navigate to={'/'} />} />
+            <Route path={':projectName'} element={<Project />} />
+          </Route>
+          <Route path={'*'} element={<NotFound />} />
+        </Route>
+        <Route path={'/login'} element={<Login />} />
+      </Routes>
+    </>
   );
-}
-
-export default App;
+};
