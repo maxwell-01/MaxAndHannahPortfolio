@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/maxwell-01/MaxAndHannahPortfolio/static/css/main.073c9b0a.css",
+    "main.js": "/maxwell-01/MaxAndHannahPortfolio/static/js/main.e5ccff4a.js",
+    "static/js/787.6691336f.chunk.js": "/maxwell-01/MaxAndHannahPortfolio/static/js/787.6691336f.chunk.js",
+    "static/media/logo.svg": "/maxwell-01/MaxAndHannahPortfolio/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/maxwell-01/MaxAndHannahPortfolio/index.html",
+    "main.073c9b0a.css.map": "/maxwell-01/MaxAndHannahPortfolio/static/css/main.073c9b0a.css.map",
+    "main.e5ccff4a.js.map": "/maxwell-01/MaxAndHannahPortfolio/static/js/main.e5ccff4a.js.map",
+    "787.6691336f.chunk.js.map": "/maxwell-01/MaxAndHannahPortfolio/static/js/787.6691336f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.e5ccff4a.js"
+  ]
+}
