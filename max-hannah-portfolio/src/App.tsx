@@ -17,7 +17,7 @@ export const App = () => {
           <Route path={'/about'} element={<About />} />
           <Route path={'/projects'}>
             <Route index element={<Navigate to={'/'} />} />
-            <Route path={':projectName'} element={<Project />} />
+            <Route path={':projectId'} element={<Project />} />
           </Route>
           <Route path={'*'} element={<NotFound />} />
         </Route>

@@ -2,6 +2,6 @@
 import { useParams } from 'react-router-dom';
 
 export const Project = () => {
-  const { projectName } = useParams();
-  return <div>Placeholder for "{projectName}" project page.</div>;
+  const { projectId } = useParams();
+  return <div>Placeholder for project "{projectId}" project page.</div>;
 };

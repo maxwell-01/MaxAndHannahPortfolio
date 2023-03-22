@@ -1,0 +1,12 @@
+﻿@use '../../../app/variables.module' as *;
+
+.PortfolioButtonContainer {
+  align-self: flex-start;
+  padding: 20px;
+  background-color: $portfolioBlack;
+  text-transform: uppercase;
+  font-size: $header3;
+  color: $portfolioWhite;
+  line-height: 42px;
+  cursor: pointer;
+}

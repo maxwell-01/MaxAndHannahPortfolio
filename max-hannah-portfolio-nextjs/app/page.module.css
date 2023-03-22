@@ -1,0 +1,9 @@
+﻿/* Mobile and Tablet */
+@media (max-width: 1023px) {
+    .main {
+        flex-direction: column;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+}

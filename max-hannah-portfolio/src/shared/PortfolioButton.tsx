@@ -5,8 +5,9 @@ import { header3 } from '../styling/fonts';
 
 type Props = {
   buttonText: string;
+  url?: string;
 };
-export const PortfolioButton = ({ buttonText }: Props) => {
+export const PortfolioButton = ({ buttonText, url }: Props) => {
   return <PortfolioButtonContainer>{buttonText}</PortfolioButtonContainer>;
 };
 

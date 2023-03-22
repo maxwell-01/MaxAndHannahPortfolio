@@ -1,5 +1,5 @@
 ﻿export const headingFont = 'mongoose, sans-serif';
-export const bodyFont = 'Roboto, sans-serif';
+export const bodyFont = 'futura-pt, sans-serif';
 
 export const fontBase = '30px';
 export const header3 = '40px';

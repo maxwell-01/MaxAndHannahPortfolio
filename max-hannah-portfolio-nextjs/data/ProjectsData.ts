@@ -1,8 +1,11 @@
 ﻿export type ProjectDto = {
   id: number;
   title: string;
+  slug?: string;
+  thumbnail: string;
+  featuredImage?: string;
+  people?: string;
   description: string;
-  imageUrl: string;
 };
 
 export type ProjectsDto = {
@@ -13,80 +16,80 @@ export const ProjectsData: ProjectsDto = {
   projects: [
     {
       id: 1,
-      title: 'first title',
+      title: "first title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 2,
-      title: 'second title',
+      title: "second title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 3,
-      title: 'third title',
+      title: "third title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 4,
-      title: 'fourth title',
+      title: "fourth title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 5,
-      title: 'fifth title',
+      title: "fifth title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 6,
-      title: 'sixth title',
+      title: "sixth title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 7,
-      title: 'seventh title',
+      title: "seventh title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 8,
-      title: 'eight title',
+      title: "eight title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 9,
-      title: 'ninth title',
+      title: "ninth title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 10,
-      title: 'tenth title',
+      title: "tenth title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
     {
       id: 11,
-      title: 'eleventh title',
+      title: "eleventh title",
       description:
         "The Project  - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.\n",
-      imageUrl: '/images/projects.jpg',
+      thumbnail: "/images/projects.jpg",
     },
   ],
 };

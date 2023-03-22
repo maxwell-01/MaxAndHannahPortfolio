@@ -1,0 +1,24 @@
+﻿@use '../../../app/variables.module' as *;
+
+.archiveContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.archiveHeader {
+  width: 100%;
+  padding: 0 0 30px 50px;
+  font: $headingFont;
+  font-size: $header2;
+  font-weight: $boldFont;
+  line-height: 65px;
+  text-transform: uppercase;
+}
+
+.archiveItem {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}

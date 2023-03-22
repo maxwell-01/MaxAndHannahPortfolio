@@ -4,8 +4,12 @@ import { boldFont, headingFont, header1, header3 } from '../../styling/fonts';
 import { ProjectCardLeftImage } from './ProjectCard/ProjectCardLeftImage';
 import { ProjectsData } from '../../data/ProjectsData';
 import { ProjectCardRightImage } from './ProjectCard/ProjectCardRightImage';
+import { ArchiveStrip } from './ArchiveStrip';
 
 export const Home = () => {
+  const projectsInProjectSection = ProjectsData.projects.slice(0, 4);
+  const projectsForArchiveSection = ProjectsData.projects.slice(5, 11);
+
   return (
     <>
       <Header>
@@ -20,7 +24,7 @@ export const Home = () => {
           <FilterItem>Combo</FilterItem>
         </FilterContainer>
         <ProjectsSection>
-          {ProjectsData.projects.map((project, index) =>
+          {projectsInProjectSection.map((project, index) =>
             index % 2 === 0 ? (
               <ProjectCardLeftImage project={project} />
             ) : (
@@ -28,6 +32,7 @@ export const Home = () => {
             ),
           )}
         </ProjectsSection>
+        <ArchiveStrip archiveProjects={projectsForArchiveSection} />
       </Body>
     </>
   );
@@ -50,7 +55,7 @@ const HeaderSpan = styled.span`
 `;
 
 const Body = styled.body`
-  padding: 0 42px;
+  padding: 0 100px;
   font-size: ${header3};
 `;
 
@@ -79,8 +84,8 @@ const FilterItem = styled.div`
 `;
 
 const ProjectsSection = styled.section`
-  padding: 0 98px;
   display: flex;
   flex-direction: column;
   gap: 138px;
+  padding-bottom: 138px;
 `;
