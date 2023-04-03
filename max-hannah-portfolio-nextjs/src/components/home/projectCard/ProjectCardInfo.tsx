@@ -1,5 +1,5 @@
 ﻿import styles from "./projectCardInfo.module.scss";
-import { PortfolioButton } from "@/components/home/portfolioButton/PortfolioButton";
+import { PortfolioButton } from "@/src/components/home/portfolioButton/PortfolioButton";
 
 type Props = {
   title: string;

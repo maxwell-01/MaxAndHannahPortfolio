@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "max-hannah-portfolio-nextjs",
   "version": "0.1.0",
   "private": true,
@@ -6,15 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "generateContentfulTypes": "generateContentfulTypes w6wehbzn4qkl s2H1CZtham6B-EloQ6lz4E3TWQtV089OYIix6yMkqDE -o Types/Contentful/contentfulTypes.d.ts"
+    "lint": "next lint"
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^15.16.3",
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "contentful": "^9.3.5",
-    "contentful-management": "^10.30.1",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "next": "13.2.4",
@@ -25,7 +24,6 @@
   "devDependencies": {
     "contentful-ts-type-generator": "github:arimkevi/contentful-ts-type-generator",
     "eslint-config-prettier": "^8.7.0",
-    "prettier": "2.8.5",
-    "ts-node": "^10.9.1"
+    "prettier": "2.8.5"
   }
 }

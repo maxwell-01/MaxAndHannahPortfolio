@@ -1,12 +1,15 @@
 ﻿import styles from "./ProjectCardRightImage.module.scss";
-import { ProjectDto } from "@/data/ProjectsData";
-import { ProjectCardInfo } from "@/components/home/projectCard/ProjectCardInfo";
+import { ProjectCardInfo } from "@/src/components/home/projectCard/ProjectCardInfo";
 import Image from "next/image";
+import { Asset } from "contentful";
+import { urlProtocol } from "@/src/urls";
+import { Project } from "@/src/types/ContentfulTypes";
 
 type Props = {
-  project: ProjectDto;
+  project: Project;
+  thumbnailAsset: Asset;
 };
-export const ProjectCardRightImage = ({ project }: Props) => {
+export const ProjectCardRightImage = ({ project, thumbnailAsset }: Props) => {
   return (
     <div className={styles.ProjectCardContainer}>
       <div>
@@ -17,7 +20,7 @@ export const ProjectCardRightImage = ({ project }: Props) => {
       </div>
       <div>
         <Image
-          src={project.thumbnail}
+          src={urlProtocol + thumbnailAsset.fields.file.url}
           width={508}
           height={533}
           alt={"Cover image for " + project.title}
