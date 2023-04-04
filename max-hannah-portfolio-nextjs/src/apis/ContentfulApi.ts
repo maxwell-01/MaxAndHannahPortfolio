@@ -17,6 +17,9 @@ export async function fetchEntriesFromContentful(params?: {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
+    next: {
+      revalidate: 0, // number of seconds to cache before fetching fresh data
+    },
   });
 
   if (!result.ok) {

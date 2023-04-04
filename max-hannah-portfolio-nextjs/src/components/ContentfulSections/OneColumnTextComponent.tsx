@@ -10,7 +10,7 @@ type Props = {
 const OneColumnTextComponent = ({ entry }: Props) => {
   return (
     <>
-      <div>One column text type</div>
+      <div>One column text component</div>
       <h2>{entry.fields.title}</h2>
       <div>{documentToReactComponents(entry.fields.text as Document)}</div>
     </>

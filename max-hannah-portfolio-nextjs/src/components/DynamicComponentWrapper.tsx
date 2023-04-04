@@ -4,14 +4,16 @@ import { Entry } from "contentful";
 import { ContentfulSection } from "@/src/types/ContentfulTypes";
 
 type DynamicComponentWrapperProps = {
-  type: string;
-  props: Entry<ContentfulSection>;
+  contentType: string;
+  entry: Entry<ContentfulSection>;
 };
 const DynamicComponentWrapper = ({
-  type,
-  props,
+  contentType,
+  entry,
 }: DynamicComponentWrapperProps) => {
-  return React.createElement(ComponentByContentfulContentTypeId[type], props);
+  return React.createElement(ComponentByContentfulContentTypeId[contentType], {
+    entry,
+  });
 };
 
 export default DynamicComponentWrapper;
