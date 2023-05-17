@@ -34,6 +34,9 @@ Take what you need from the file and delete it to save from accidentally referen
 
 ## Setup
 
+- This project was built with Node version 18.16.0
+- run `npm install` to install the dependencies
+
 The following are required before you can run the application:
 
 -   Open the `.env.local` file at the root of the project and populate the keys. Request keys from repo own if you
