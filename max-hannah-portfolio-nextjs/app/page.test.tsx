@@ -1,9 +1,8 @@
 ﻿import userEvent from '@testing-library/user-event';
 import App from './page';
 import { GetProjectDataForHomepage } from '@/src/apis/apis';
-import { GetEntryFromIncludesByItem } from '@/src/apis/ContentfulService';
 import {jest} from "@jest/globals";
-import {render} from "@testing-library/react";
+import {render, waitFor} from "@testing-library/react";
 
 jest.mock('@/src/apis/apis');
 jest.mock('@/src/apis/ContentfulService');

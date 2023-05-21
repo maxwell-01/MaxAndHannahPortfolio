@@ -1,49 +1,45 @@
-﻿import { Project } from '@/src/types/ContentfulTypes';
-import { Asset, EntryCollection } from 'contentful';
+﻿import {ApiAsset, ContentfulEntries, ContentfulSectionEntry} from '@/src/types/ContentfulTypes';
 import {
     PortfolioProject,
     PortfolioProjects,
 } from '@/src/types/PortfolioProject';
 import { PortfolioAsset } from '@/src/types/PortfolioTypes';
-import { getIncludesItemById } from '@/src/apis/ContentfulService';
+import { portfolioSectionFromContentfulSection } from '@/src/mappers/ContentfulSectionMapper';
 
 export const ContentfulEntryCollectionToPortfolioProjects = (
-    entryCollection: EntryCollection<Project>
+    entryCollection: ContentfulEntries
 ): PortfolioProjects => {
     const asset = (id: string) => {
-        return portfolioAssetFromContentfulAsset(entryCollection.includes, id);
+        return portfolioAssetFromContentfulAsset(entryCollection.includes.Asset, id);
     };
-
-    const entry = (id: string) => {};
 
     const projects = entryCollection.items.map((item) => {
         const portfolio: PortfolioProject = {
-            slug: '',
-            title: '',
+            slug: item.fields.slug,
+            title: item.fields.title,
             description: item.fields.description,
             thumbnail: asset(item.fields.thumbnail.sys.id),
             featuredImage: asset(item.fields.featuredImage.sys.id),
             sections: item.fields.sections?.map((section) =>
                 portfolioSectionFromContentfulSection(
-                    section,
-                    entryCollection.includes.Entry
+                    entryCollection.includes,
+                    section
                 )
             ),
         };
         return portfolio;
     });
 
-    const portfolioProjects: PortfolioProjects = {
+    return {
         projects: projects,
     };
-    return portfolioProjects;
 };
 
 const portfolioAssetFromContentfulAsset = (
-    includes: ReadonlyArray<Asset>,
+    assets: ReadonlyArray<ApiAsset>,
     assetId: string
 ): PortfolioAsset => {
-    const asset = getIncludesItemById(includes, assetId);
+    const asset = getAssetItemById(assets, assetId);
     return {
         metadata: {
             id: assetId,
@@ -59,4 +55,28 @@ const portfolioAssetFromContentfulAsset = (
             contentType: asset.fields.file.contentType,
         },
     };
+};
+
+export const getEntryItemById = (
+    entry: Array<ContentfulSectionEntry>,
+    id: string
+): ContentfulSectionEntry => {
+    const item = entry.find((i) => i.sys.id == id);
+
+    if (item == undefined) {
+        throw new Error(`Item with id '${id}' not found in includes`);
+    }
+    return item;
+};
+
+export const getAssetItemById = (
+    asset: ReadonlyArray<ApiAsset>,
+    id: string
+): ApiAsset => {
+    const item = asset.find((i) => i.sys.id == id);
+
+    if (item == undefined) {
+        throw new Error(`Item with id '${id}' not found in Assets`);
+    }
+    return item;
 };

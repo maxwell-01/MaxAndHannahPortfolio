@@ -1,5 +1,4 @@
 ﻿import { GetProjectFromApi } from '@/src/apis/apis';
-import { getSectionsFromIncludesByItem } from '@/src/apis/ContentfulService';
 import DynamicComponentWrapper from '@/src/components/DynamicComponentWrapper';
 
 type Props = {

@@ -1,33 +1,53 @@
 ﻿import {
     Asset,
+    ContentTypeLink,
     Entry,
     EntryCollection,
+    EnvironmentLink,
+    Metadata,
     RichTextData,
     RichTextDataTarget,
     RichTextNodeType,
+    SpaceLink,
     Sys,
 } from 'contentful';
 
+export interface ContentfulEntries {
+    sys: {
+        type: string;
+    };
+    total: number;
+    skip: number;
+    limit: number;
+    items: ReadonlyArray<ApiEntry<Project>>;
+    includes: ContentfulIncludes;
+    errors?: ReadonlyArray<any>;
+}
+export interface ApiEntry<T> {
+    sys: Sys;
+    fields: T;
+    metadata: Metadata;
+}
+
 export const Project = 'project';
+
 export interface Project {
-    //Project
-    /*  */
     readonly description: string;
-    readonly featuredImage: Asset;
+    readonly featuredImage: RichTextDataTarget;
     readonly sections?: ReadonlyArray<RichTextDataTarget>;
     readonly slug: string;
-    readonly thumbnail: Asset;
+    readonly thumbnail: RichTextDataTarget;
     readonly title: string;
 }
 
-export interface ContentfulHomePageEntryCollection
+export interface ContentfulProjectEntryCollection
     extends EntryCollection<Project> {
     errors?: Array<any>;
     includes: ContentfulIncludes;
 }
 
 export type ContentfulIncludes = {
-    Asset: Array<Asset>;
+    Asset: Array<ApiAsset>;
     Entry: Array<ContentfulSectionEntry>;
 };
 
@@ -40,13 +60,41 @@ export interface SingleContentfulEntry {
     includes: ContentfulIncludes;
 }
 
-export interface ContentfulEntries {
-    total: number;
-    skip: number;
-    limit: number;
-    items: ReadonlyArray<Entry<Project>>;
-    errors?: ReadonlyArray<any>;
-    includes: ContentfulIncludes;
+export interface ApiAsset {
+    sys: {
+        type: string;
+        id: string;
+        createdAt: string;
+        updatedAt: string;
+        locale: string;
+        revision?: number;
+        space?: {
+            sys: SpaceLink;
+        };
+        environment?: {
+            sys: EnvironmentLink;
+        };
+        contentType?: {
+            sys: ContentTypeLink;
+        };
+    };
+    fields: {
+        title: string;
+        description: string;
+        file: {
+            url: string;
+            details: {
+                size: number;
+                image?: {
+                    width: number;
+                    height: number;
+                };
+            };
+            fileName: string;
+            contentType: string;
+        };
+    };
+    metadata: Metadata;
 }
 
 export type ContentfulSectionEntry =
@@ -56,7 +104,7 @@ export type ContentfulSectionEntry =
     | OneColumnTextEntry
     | SubSectionEntry;
 
-export interface FullWidthMediaEntry extends Entry<FullWidthMedia> {
+export interface FullWidthMediaEntry extends ApiEntry<FullWidthMedia> {
     sys: Sys & {
         contentType: {
             sys: {
@@ -67,14 +115,13 @@ export interface FullWidthMediaEntry extends Entry<FullWidthMedia> {
 }
 export const FullWidthMedia = 'fullWidthMedia';
 export interface FullWidthMedia {
-    //Full width media
-    /*  */
     readonly altText?: string;
-    readonly media?: Asset;
+    readonly media?: RichTextDataTarget;
     readonly title?: string;
 }
 
-export interface FullWidthSubSectionEntry extends Entry<FullWidthSubSection> {
+export interface FullWidthSubSectionEntry
+    extends ApiEntry<FullWidthSubSection> {
     sys: Sys & {
         contentType: {
             sys: {
@@ -85,14 +132,12 @@ export interface FullWidthSubSectionEntry extends Entry<FullWidthSubSection> {
 }
 export const FullWidthSubSection = 'fullWidthSubSection';
 export interface FullWidthSubSection {
-    //Full width subsection
-    /*  */
     readonly backgroundColourHexCode?: string;
     readonly sections?: ReadonlyArray<RichTextDataTarget>;
     readonly title?: string;
 }
 
-export interface IconWithTextEntry extends Entry<IconWithText> {
+export interface IconWithTextEntry extends ApiEntry<IconWithText> {
     sys: Sys & {
         contentType: {
             sys: {
@@ -103,14 +148,12 @@ export interface IconWithTextEntry extends Entry<IconWithText> {
 }
 export const IconWithText = 'iconWithText';
 export interface IconWithText {
-    //Icon with text
-    /*  */
     readonly icon?: Asset;
     readonly text?: string;
     readonly title?: string;
 }
 
-export interface OneColumnTextEntry extends Entry<OneColumnText> {
+export interface OneColumnTextEntry extends ApiEntry<OneColumnText> {
     sys: Sys & {
         contentType: {
             sys: {
@@ -121,14 +164,12 @@ export interface OneColumnTextEntry extends Entry<OneColumnText> {
 }
 export const OneColumnText = 'oneColumnText';
 export interface OneColumnText {
-    //One column text
-    /*  */
     readonly backgroundColourHexCode?: string;
     readonly text: { content: any; data: any; nodeType: string };
     readonly title?: string;
 }
 
-export interface SubSectionEntry extends Entry<SubSection> {
+export interface SubSectionEntry extends ApiEntry<SubSection> {
     sys: Sys & {
         contentType: {
             sys: {
@@ -139,8 +180,6 @@ export interface SubSectionEntry extends Entry<SubSection> {
 }
 export const SubSection = 'subSection';
 export interface SubSection {
-    //Sub section
-    /*  */
     readonly backgroundColourHexCode?: string;
     readonly description?: string;
     readonly sections?: ReadonlyArray<RichTextDataTarget>;

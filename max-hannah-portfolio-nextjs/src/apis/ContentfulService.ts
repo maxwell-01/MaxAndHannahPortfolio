@@ -1,14 +1,13 @@
 ﻿import { fetchEntriesFromContentful } from '@/src/apis/ContentfulApi';
 import {
-    ContentfulHomePageEntryCollection,
+    ContentfulProjectEntryCollection,
     ContentfulFields,
     Project,
-    ContentfulSectionEntry,
 } from '@/src/types/ContentfulTypes';
 import { Asset, Entry, EntryCollection } from 'contentful';
 
 export const GetContentfulDataForHomePageFromApi =
-    async (): Promise<ContentfulHomePageEntryCollection> => {
+    async (): Promise<ContentfulProjectEntryCollection> => {
         const fieldsToFetch = `sys.id,fields.title,fields.slug,fields.description,fields.thumbnail`;
         const params = {
             limit: '10',
@@ -26,7 +25,7 @@ export const GetContentfulDataForHomePageFromApi =
             throw new Error('No assets returned');
         }
 
-        return data as ContentfulHomePageEntryCollection;
+        return data as ContentfulProjectEntryCollection;
     };
 
 export const GetContentfulProject = async (
@@ -37,27 +36,6 @@ export const GetContentfulProject = async (
         content_type: 'project',
     };
     return await fetchEntriesFromContentful(params);
-};
-
-export const getEntryItemById = (
-    entry: Array<ContentfulSectionEntry>,
-    id: string
-): ContentfulSectionEntry => {
-    const item = entry.find((i) => i.sys.id == id);
-
-    if (item == undefined) {
-        throw new Error(`Item with id '${id}' not found in includes`);
-    }
-    return item;
-};
-
-export const getAssetItemById = (asset: Array<Asset>, id: string): Asset => {
-    const item = asset.find((i) => i.sys.id == id);
-
-    if (item == undefined) {
-        throw new Error(`Item with id '${id}' not found in Assets`);
-    }
-    return item;
 };
 
 export const getSectionsFromIncludesBySection = (

@@ -1,5 +1,5 @@
 ﻿import {
-    ContentfulHomePageEntryCollection,
+    ContentfulProjectEntryCollection,
     mapContentfulResponseToSingleContentfulEntry,
     SingleContentfulEntry,
 } from '@/src/types/ContentfulTypes';
@@ -9,7 +9,7 @@ import {
 } from '@/src/apis/ContentfulService';
 
 export const GetProjectDataForHomepage =
-    async (): Promise<ContentfulHomePageEntryCollection> => {
+    async (): Promise<ContentfulProjectEntryCollection> => {
         try {
             return await GetContentfulDataForHomePageFromApi();
         } catch (e) {

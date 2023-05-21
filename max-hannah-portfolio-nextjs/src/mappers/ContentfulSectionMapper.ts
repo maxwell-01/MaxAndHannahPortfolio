@@ -1,4 +1,4 @@
-﻿import { Asset } from 'contentful';
+﻿import { Asset, RichTextDataTarget } from 'contentful';
 import {
     ContentfulIncludes,
     ContentfulSectionEntry,
@@ -25,65 +25,13 @@ import {
 import {
     getAssetItemById,
     getEntryItemById,
-} from '@/src/apis/ContentfulService';
+} from '@/src/mappers/ContentfulProjectMapper';
 
-const GetPortfolioFieldsFromContentfulFields = (
-    contentfulSectionEntry: ContentfulSectionEntry,
-    includes: ContentfulIncludes
-): PortfolioFields => {
-    if (
-        isThing<FullWidthMediaEntry>(contentfulSectionEntry, 'fullWidthMedia')
-    ) {
-        return portfolioFullWidthMediaSectionFromContentfulSection(
-            contentfulSectionEntry.fields,
-            getAssetItemById(includes.Asset, contentfulSectionEntry.sys.id)
-        );
-    }
-
-    if (
-        isThing<FullWidthSubSectionEntry>(
-            contentfulSectionEntry,
-            'fullWidthSubSection'
-        )
-    ) {
-        return portfolioFullWidthSubSectionFromContentfulSection(
-            includes,
-            contentfulSectionEntry.fields
-        );
-    }
-
-    if (isThing<IconWithTextEntry>(contentfulSectionEntry, 'iconWithText')) {
-        return iconWithTextSectionFromContentfulSection(
-            contentfulSectionEntry.fields,
-            getAssetItemById(includes.Asset, contentfulSectionEntry.sys.id)
-        );
-    }
-
-    if (isThing<OneColumnTextEntry>(contentfulSectionEntry, 'oneColumnText')) {
-        return portfolioOneColumnTextFieldsFromContentfulSection(
-            contentfulSectionEntry.fields
-        );
-    }
-
-    if (isThing<SubSectionEntry>(contentfulSectionEntry, 'subSection')) {
-        return portfolioSubSubSectionFromContentfulSection(
-            includes,
-            contentfulSectionEntry.fields
-        );
-    }
-
-    throw new Error(`Content not supported.`);
-};
-
-const isThing = <TEntry extends ContentfulSectionEntry>(
-    entry: ContentfulSectionEntry,
-    entryId: string
-): entry is TEntry => entry.sys.contentType.sys.id === entryId;
-
-const portfolioSectionFromContentfulSection = (
+export const portfolioSectionFromContentfulSection = (
     includes: ContentfulIncludes,
-    sectionId: string
+    section: RichTextDataTarget
 ): PortfolioSection => {
+    const sectionId = section.sys.id;
     const contentfulSectionEntry = getEntryItemById(includes.Entry, sectionId);
 
     const fields = GetPortfolioFieldsFromContentfulFields(
@@ -101,6 +49,77 @@ const portfolioSectionFromContentfulSection = (
         fields: fields,
     };
 };
+
+const GetPortfolioFieldsFromContentfulFields = (
+    contentfulSectionEntry: ContentfulSectionEntry,
+    includes: ContentfulIncludes
+): PortfolioFields => {
+    if (
+        matchesContentfulSection<FullWidthMediaEntry>(
+            contentfulSectionEntry,
+            'fullWidthMedia'
+        )
+    ) {
+        return portfolioFullWidthMediaSectionFromContentfulSection(
+            contentfulSectionEntry.fields,
+            getAssetItemById(includes.Asset, contentfulSectionEntry.sys.id)
+        );
+    }
+
+    if (
+        matchesContentfulSection<FullWidthSubSectionEntry>(
+            contentfulSectionEntry,
+            'fullWidthSubSection'
+        )
+    ) {
+        return portfolioFullWidthSubSectionFromContentfulSection(
+            includes,
+            contentfulSectionEntry.fields
+        );
+    }
+
+    if (
+        matchesContentfulSection<IconWithTextEntry>(
+            contentfulSectionEntry,
+            'iconWithText'
+        )
+    ) {
+        return iconWithTextSectionFromContentfulSection(
+            contentfulSectionEntry.fields,
+            getAssetItemById(includes.Asset, contentfulSectionEntry.sys.id)
+        );
+    }
+
+    if (
+        matchesContentfulSection<OneColumnTextEntry>(
+            contentfulSectionEntry,
+            'oneColumnText'
+        )
+    ) {
+        return portfolioOneColumnTextFieldsFromContentfulSection(
+            contentfulSectionEntry.fields
+        );
+    }
+
+    if (
+        matchesContentfulSection<SubSectionEntry>(
+            contentfulSectionEntry,
+            'subSection'
+        )
+    ) {
+        return portfolioSubSubSectionFromContentfulSection(
+            includes,
+            contentfulSectionEntry.fields
+        );
+    }
+
+    throw new Error(`Content not supported.`);
+};
+
+const matchesContentfulSection = <TEntry extends ContentfulSectionEntry>(
+    entry: ContentfulSectionEntry,
+    entryId: string
+): entry is TEntry => entry.sys.contentType.sys.id === entryId;
 
 const portfolioFullWidthMediaSectionFromContentfulSection = (
     contentfulSection: FullWidthMedia,
@@ -131,7 +150,7 @@ const portfolioFullWidthSubSectionFromContentfulSection = (
         title: contentfulSection.title,
         backgroundColourHexCode: contentfulSection.backgroundColourHexCode,
         sections: contentfulSection.sections?.map((section) =>
-            portfolioSectionFromContentfulSection(includes, section.sys.id)
+            portfolioSectionFromContentfulSection(includes, section)
         ),
     };
 };
@@ -144,7 +163,7 @@ const portfolioSubSubSectionFromContentfulSection = (
         title: contentfulSection.title,
         backgroundColourHexCode: contentfulSection.backgroundColourHexCode,
         sections: contentfulSection.sections?.map((section) =>
-            portfolioSectionFromContentfulSection(includes, section.sys.id)
+            portfolioSectionFromContentfulSection(includes, section)
         ),
     };
 };
