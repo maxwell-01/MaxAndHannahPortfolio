@@ -1,5 +1,5 @@
 ﻿import { Entry } from 'contentful';
-import { FullWidthMedia } from '@/src/types/ContentfulTypes';
+import {FullWidthMedia} from "../../types/ContentfulTypes";
 
 type Props = {
     entry: Entry<FullWidthMedia>;

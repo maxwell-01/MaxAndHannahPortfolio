@@ -1,4 +1,5 @@
-﻿import { PortfolioAsset, PortfolioSection } from '@/src/types/PortfolioTypes';
+﻿import {PortfolioAsset, PortfolioSection} from "./PortfolioTypes";
+
 
 export type PortfolioProjects = {
     projects: ReadonlyArray<PortfolioProject>;

@@ -1,10 +1,7 @@
-﻿import {ApiAsset, ContentfulEntries, ContentfulSectionEntry} from '@/src/types/ContentfulTypes';
-import {
-    PortfolioProject,
-    PortfolioProjects,
-} from '@/src/types/PortfolioProject';
-import { PortfolioAsset } from '@/src/types/PortfolioTypes';
-import { portfolioSectionFromContentfulSection } from '@/src/mappers/ContentfulSectionMapper';
+﻿import {ApiAsset, ContentfulEntries, ContentfulSectionEntry} from "../types/ContentfulTypes";
+import {PortfolioProject, PortfolioProjects} from "../types/PortfolioProject";
+import {PortfolioAsset} from "../types/PortfolioTypes";
+import {portfolioSectionFromContentfulSection} from "./ContentfulSectionMapper";
 
 export const ContentfulEntryCollectionToPortfolioProjects = (
     entryCollection: ContentfulEntries

@@ -1,6 +1,7 @@
-﻿import { ComponentType } from 'react';
-import OneColumnTextComponent from '@/src/components/ContentfulSections/OneColumnTextComponent';
-import FullWidthMediaComponent from '@/src/components/ContentfulSections/FullWidthMediaComponent';
+﻿import {ComponentType} from "react";
+import OneColumnTextComponent from "./components/ContentfulSections/OneColumnTextComponent";
+import FullWidthMediaComponent from "./components/ContentfulSections/FullWidthMediaComponent";
+
 
 type componentMap = {
     [key: string]: ComponentType<any>;

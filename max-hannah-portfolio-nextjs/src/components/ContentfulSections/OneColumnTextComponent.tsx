@@ -7,9 +7,9 @@ import {
     Inline,
     MARKS,
 } from '@contentful/rich-text-types';
-import { OneColumnText } from '@/src/types/ContentfulTypes';
 import { ReactNode } from 'react';
 import 'app/globals.scss';
+import {OneColumnText} from "../../types/ContentfulTypes";
 
 type Props = {
     entry: Entry<OneColumnText>;

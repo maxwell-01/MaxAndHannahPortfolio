@@ -1,5 +1,5 @@
-﻿import { Asset, RichTextDataTarget } from 'contentful';
-import {
+﻿import {
+    ApiAsset,
     ContentfulIncludes,
     ContentfulSectionEntry,
     FullWidthMedia,
@@ -11,21 +11,19 @@ import {
     OneColumnText,
     OneColumnTextEntry,
     SubSection,
-    SubSectionEntry,
-} from '@/src/types/ContentfulTypes';
+    SubSectionEntry
+} from "../types/ContentfulTypes";
+import {RichTextDataTarget} from "contentful";
 import {
     FullWidthMediaFields,
-    FullWidthSubSectionFields,
-    IconWithTextFields,
-    OneColumnTextFields,
-    PortfolioAsset,
+    FullWidthSubSectionFields, IconWithTextFields,
+    OneColumnTextFields, PortfolioAsset,
     PortfolioFields,
-    PortfolioSection,
-} from '@/src/types/PortfolioTypes';
-import {
-    getAssetItemById,
-    getEntryItemById,
-} from '@/src/mappers/ContentfulProjectMapper';
+    PortfolioSection
+} from "../types/PortfolioTypes";
+import {getAssetItemById, getEntryItemById} from "./ContentfulProjectMapper";
+import {convertToHtml} from "./RichTextToHtmlMapper"
+
 
 export const portfolioSectionFromContentfulSection = (
     includes: ContentfulIncludes,
@@ -123,7 +121,7 @@ const matchesContentfulSection = <TEntry extends ContentfulSectionEntry>(
 
 const portfolioFullWidthMediaSectionFromContentfulSection = (
     contentfulSection: FullWidthMedia,
-    asset: Asset
+    asset: ApiAsset
 ): FullWidthMediaFields => {
     return {
         title: contentfulSection.title,
@@ -170,7 +168,7 @@ const portfolioSubSubSectionFromContentfulSection = (
 
 const iconWithTextSectionFromContentfulSection = (
     contentfulSection: IconWithText,
-    asset: Asset
+    asset: ApiAsset
 ): IconWithTextFields => {
     return {
         title: contentfulSection.title,
@@ -180,7 +178,7 @@ const iconWithTextSectionFromContentfulSection = (
 };
 
 const portfolioAssetFromContentfulAsset = (
-    contentfulAsset: Asset
+    contentfulAsset: ApiAsset
 ): PortfolioAsset => {
     const file = contentfulAsset.fields.file;
     const image = file.details.image;

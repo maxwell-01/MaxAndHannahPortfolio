@@ -2,9 +2,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Asset, Entry } from 'contentful';
-import { GetEntryFromIncludesByItem } from '@/src/apis/ContentfulService';
-import { urlProtocol } from '@/src/urls';
-import { Project } from '@/src/types/ContentfulTypes';
+import {Project} from "../../../types/ContentfulTypes";
+import {urlProtocol} from "../../../urls";
+
 
 type Props = {
     archiveProjects: Array<Entry<Project>>;
@@ -33,7 +33,7 @@ export const ArchiveStrip = ({ archiveProjects, assets }: Props) => {
                         <Image
                             src={
                                 urlProtocol +
-                                GetEntryFromIncludesByItem(
+                                GetEntryFromIncludesByItem( // TODO - update these components to use portfolioProject type
                                     assets,
                                     project.fields.thumbnail.sys.id
                                 ).fields.file.url

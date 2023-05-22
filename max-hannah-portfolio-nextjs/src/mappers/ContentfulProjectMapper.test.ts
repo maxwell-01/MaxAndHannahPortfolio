@@ -1,5 +1,5 @@
-﻿import {ContentfulEntryCollectionToPortfolioProjects} from "@/src/mappers/ContentfulProjectMapper";
-import {testContentfulEntries} from "@/src/testingData/ContentfulTestData";
+﻿import {ContentfulEntryCollectionToPortfolioProjects} from "./ContentfulProjectMapper";
+import {testContentfulEntries} from "../testingData/ContentfulTestData";
 
 
 describe('ContentfulEntryCollectionToPortfolioProjects_mapsContentfulDataToPortfolioData', () => {

@@ -40,12 +40,6 @@ export interface Project {
     readonly title: string;
 }
 
-export interface ContentfulProjectEntryCollection
-    extends EntryCollection<Project> {
-    errors?: Array<any>;
-    includes: ContentfulIncludes;
-}
-
 export type ContentfulIncludes = {
     Asset: Array<ApiAsset>;
     Entry: Array<ContentfulSectionEntry>;

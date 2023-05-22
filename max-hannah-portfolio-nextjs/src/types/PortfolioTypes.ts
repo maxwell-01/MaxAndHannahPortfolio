@@ -1,6 +1,4 @@
-﻿export const PortfolioHomePageData = {};
-
-export type PortfolioAsset = {
+﻿export type PortfolioAsset = {
     metadata: PortfolioMetadata;
     fields: {
         title: string;

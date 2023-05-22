@@ -1,10 +1,9 @@
-﻿import { NavMenu } from '@/src/components/navMenu/NavMenu';
-import { Footer } from '@/src/components/footer/Footer';
-import { GetProjectDataForHomepage } from '@/src/apis/apis';
-import { Asset } from 'contentful';
-import { ProjectCardWithImage } from '@/src/components/home/projectCard/ProjectCardWithImage';
-import { GetEntryFromIncludesByItem } from '@/src/apis/ContentfulService';
-import { ArchiveStrip } from '@/src/components/home/archiveStrip/ArchiveStrip';
+﻿import {GetProjectDataForHomepage} from "../src/apis/apis";
+import {Asset} from "contentful";
+import {NavMenu} from "../src/components/navMenu/NavMenu";
+import {ProjectCardWithImage} from "../src/components/home/projectCard/ProjectCardWithImage";
+import {ArchiveStrip} from "../src/components/home/archiveStrip/ArchiveStrip";
+import {Footer} from "../src/components/footer/Footer";
 
 export default async function App() {
     const projects = await GetProjectDataForHomepage();

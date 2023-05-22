@@ -1,7 +1,8 @@
-﻿import React from 'react';
-import { ComponentByContentfulContentTypeId } from '@/src/ComponentByContentfulContentTypeId';
-import { Entry } from 'contentful';
-import { ContentfulFields } from '@/src/types/ContentfulTypes';
+﻿import {Entry} from "contentful";
+import {ContentfulFields} from "../types/ContentfulTypes";
+import {ComponentByContentfulContentTypeId} from "../ComponentByContentfulContentTypeId";
+import React from "react";
+
 
 type DynamicComponentWrapperProps = {
     contentType: string;

@@ -1,9 +1,10 @@
 ﻿import Image from 'next/image';
 import { Asset } from 'contentful';
-import { urlProtocol } from '@/src/urls';
-import { Project } from '@/src/types/ContentfulTypes';
-import { PortfolioButton } from '@/src/components/home/portfolioButton/PortfolioButton';
+
 import React from 'react';
+import {Project} from "../../../types/ContentfulTypes";
+import {urlProtocol} from "../../../urls";
+import {PortfolioButton} from "../portfolioButton/PortfolioButton";
 
 type Props = {
     project: Project;

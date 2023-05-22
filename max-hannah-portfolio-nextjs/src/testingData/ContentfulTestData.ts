@@ -1,9 +1,4 @@
-﻿import {
-    ContentfulEntries,
-    ContentfulProjectEntryCollection,
-    Project,
-} from '@/src/types/ContentfulTypes';
-import { EntryCollection } from 'contentful';
+﻿import {ContentfulEntries} from "../types/ContentfulTypes";
 
 export const testContentfulEntries: ContentfulEntries = {
     sys: {

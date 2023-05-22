@@ -19,7 +19,7 @@ interface RichTextContent {
     nodeType: RichTextNodeType;
 }
 
-function convertToHtml(richTextContent: RichTextContent): string {
+export function convertToHtml(richTextContent: RichTextContent): string {
     switch (richTextContent.nodeType) {
         case 'document':
             return (richTextContent.content?.map(convertToHtml) ?? []).join('');
