@@ -1,6 +1,7 @@
-﻿import { EntryCollection } from 'contentful';
-import { ContentfulEntriesApiUrl } from '@/src/urls';
-import { Project } from '@/src/types/ContentfulTypes';
+﻿import {Entry, EntryCollection} from 'contentful';
+import {ContentfulSectionEntry, Project} from "../types/ContentfulTypes";
+import {ContentfulEntriesApiUrl} from "../urls";
+
 
 export async function fetchEntriesFromContentful(params?: {
     [key: string]: string;
@@ -19,12 +20,33 @@ export async function fetchEntriesFromContentful(params?: {
             Authorization: `Bearer ${accessToken}`,
         },
         next: {
-            revalidate: 0, // number of seconds to cache before fetching fresh data
+            revalidate: 0, // number of seconds for nextjs to cache before fetching fresh data
         },
     });
 
     if (!result.ok) {
         throw new Error('Failed to fetch data from Contentful API');
+    }
+
+    return await result.json();
+}
+
+export async function fetchEntryFromContentful(entryId: string): Promise<ContentfulSectionEntry> {
+    const accessToken = process.env.CONTENTFUL_DELIVERY_ACCESS_TOKEN;
+    
+    let requestUrl = ContentfulEntriesApiUrl + entryId;
+
+    const result = await fetch(requestUrl, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+        next: {
+            revalidate: 0, // number of seconds for nextjs to cache before fetching fresh data
+        },
+    });
+
+    if (!result.ok) {
+        throw new Error(`Failed to fetch entry of id: ${entryId} from Contentful API`);
     }
 
     return await result.json();

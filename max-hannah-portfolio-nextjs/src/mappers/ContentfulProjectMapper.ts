@@ -2,6 +2,7 @@
 import {PortfolioProject, PortfolioProjects} from "../types/PortfolioProject";
 import {PortfolioAsset} from "../types/PortfolioTypes";
 import {portfolioSectionFromContentfulSection} from "./ContentfulSectionMapper";
+import {fetchEntryFromContentful} from "../apis/ContentfulApi";
 
 export const ContentfulEntryCollectionToPortfolioProjects = (
     entryCollection: ContentfulEntries
@@ -54,14 +55,20 @@ const portfolioAssetFromContentfulAsset = (
     };
 };
 
-export const getEntryItemById = (
+export const getEntryItemById = async (
     entry: Array<ContentfulSectionEntry>,
     id: string
-): ContentfulSectionEntry => {
-    const item = entry.find((i) => i.sys.id == id);
+): Promise<ContentfulSectionEntry> => {
+    let item = entry.find((i) => i.sys.id == id);
 
     if (item == undefined) {
-        throw new Error(`Item with id '${id}' not found in includes`);
+        
+            // if the entry is not on the original response, you might need to request it
+            item = await fetchEntryFromContentful(id)
+            if (item == undefined) {
+                throw new Error(`Item with id '${id}' does not exist`);
+            }
+        
     }
     return item;
 };

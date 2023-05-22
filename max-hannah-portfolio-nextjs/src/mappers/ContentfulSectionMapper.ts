@@ -25,14 +25,14 @@ import {getAssetItemById, getEntryItemById} from "./ContentfulProjectMapper";
 import {convertToHtml} from "./RichTextToHtmlMapper"
 
 
-export const portfolioSectionFromContentfulSection = (
+export const portfolioSectionFromContentfulSection = async (
     includes: ContentfulIncludes,
     section: RichTextDataTarget
-): PortfolioSection => {
+): Promise<PortfolioSection> => {
     const sectionId = section.sys.id;
-    const contentfulSectionEntry = getEntryItemById(includes.Entry, sectionId);
+    const contentfulSectionEntry = await getEntryItemById(includes.Entry, sectionId);
 
-    const fields = GetPortfolioFieldsFromContentfulFields(
+    const fields = await GetPortfolioFieldsFromContentfulFields(
         contentfulSectionEntry,
         includes
     );
@@ -48,19 +48,25 @@ export const portfolioSectionFromContentfulSection = (
     };
 };
 
-const GetPortfolioFieldsFromContentfulFields = (
+const GetPortfolioFieldsFromContentfulFields = async (
     contentfulSectionEntry: ContentfulSectionEntry,
     includes: ContentfulIncludes
-): PortfolioFields => {
+): Promise<PortfolioFields> => {
     if (
         matchesContentfulSection<FullWidthMediaEntry>(
             contentfulSectionEntry,
             'fullWidthMedia'
         )
     ) {
+        let entryItemById = await getEntryItemById(includes.Entry, contentfulSectionEntry.sys.id) as FullWidthMediaEntry;
+
+        if (entryItemById.fields.media == undefined) {
+            throw new Error(`No media object on entry of id: ${entryItemById.sys.id}`)
+        }
+
         return portfolioFullWidthMediaSectionFromContentfulSection(
             contentfulSectionEntry.fields,
-            getAssetItemById(includes.Asset, contentfulSectionEntry.sys.id)
+            getAssetItemById(includes.Asset, entryItemById.fields.media.sys.id)
         );
     }
 
@@ -84,7 +90,7 @@ const GetPortfolioFieldsFromContentfulFields = (
     ) {
         return iconWithTextSectionFromContentfulSection(
             contentfulSectionEntry.fields,
-            getAssetItemById(includes.Asset, contentfulSectionEntry.sys.id)
+            getAssetItemById(includes.Asset, await getEntryItemById(includes.Entry, contentfulSectionEntry.sys.id).sys.space!.sys.id)
         );
     }
 
@@ -140,28 +146,32 @@ const portfolioOneColumnTextFieldsFromContentfulSection = (
     };
 };
 
-const portfolioFullWidthSubSectionFromContentfulSection = (
+const portfolioFullWidthSubSectionFromContentfulSection = async (
     includes: ContentfulIncludes,
     contentfulSection: FullWidthSubSection
-): FullWidthSubSectionFields => {
+): Promise<FullWidthSubSectionFields> => {
     return {
         title: contentfulSection.title,
         backgroundColourHexCode: contentfulSection.backgroundColourHexCode,
-        sections: contentfulSection.sections?.map((section) =>
-            portfolioSectionFromContentfulSection(includes, section)
+        sections: await Promise.all(
+            contentfulSection.sections?.map(async (section) =>
+                portfolioSectionFromContentfulSection(includes, section)
+            ) ?? []
         ),
     };
 };
 
-const portfolioSubSubSectionFromContentfulSection = (
+const portfolioSubSubSectionFromContentfulSection = async (
     includes: ContentfulIncludes,
     contentfulSection: SubSection
-): FullWidthSubSectionFields => {
+): Promise<FullWidthSubSectionFields> => {
     return {
         title: contentfulSection.title,
         backgroundColourHexCode: contentfulSection.backgroundColourHexCode,
-        sections: contentfulSection.sections?.map((section) =>
-            portfolioSectionFromContentfulSection(includes, section)
+        sections: await Promise.all(
+            contentfulSection.sections?.map(async (section) =>
+                portfolioSectionFromContentfulSection(includes, section)
+            ) ?? []
         ),
     };
 };
