@@ -333,3 +333,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/react,windows,macos,jetbrains+all,node
 /importedContentfulApiTypes.d.ts
+/.env.test

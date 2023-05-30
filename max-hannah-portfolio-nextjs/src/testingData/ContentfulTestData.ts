@@ -1,4 +1,4 @@
-﻿import {ContentfulEntries} from "../types/ContentfulTypes";
+﻿import { ContentfulEntries } from '../types/ContentfulTypes';
 
 export const testContentfulEntries: ContentfulEntries = {
     sys: {
