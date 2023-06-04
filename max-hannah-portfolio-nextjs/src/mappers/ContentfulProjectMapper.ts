@@ -21,6 +21,12 @@ export const ContentfulEntryCollectionToPortfolioProjects = async (
   const projects = await Promise.all(
     entryCollection.items.map(async (item) => {
       const portfolio: PortfolioProject = {
+        metadata: {
+          id: item.sys.id,
+          createdAt: item.sys.createdAt,
+          updatedAt: item.sys.updatedAt,
+          contentType: 'project',
+        },
         slug: item.fields.slug,
         title: item.fields.title,
         description: item.fields.description,
@@ -42,6 +48,7 @@ export const ContentfulEntryCollectionToPortfolioProjects = async (
 
   return {
     projects: projects,
+    errors: entryCollection.errors,
   };
 };
 
@@ -55,6 +62,7 @@ const portfolioAssetFromContentfulAsset = (
       id: assetId,
       createdAt: asset.sys.createdAt,
       updatedAt: asset.sys.updatedAt,
+      contentType: 'asset',
     },
     fields: {
       title: asset.fields.title,
@@ -74,12 +82,12 @@ export const getEntryItemById = async (
   let item = entry.find((i) => i.sys.id == id);
 
   if (item == undefined) {
-    // request entries not present in the original response
     item = await fetchEntryFromContentful(id);
     if (item == undefined) {
       throw new Error(`Item with id '${id}' does not exist`);
     }
   }
+
   return item;
 };
 

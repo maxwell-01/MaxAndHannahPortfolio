@@ -29,7 +29,7 @@ import { convertToHtml } from './RichTextToHtmlMapper';
 export const portfolioSectionFromContentfulSection = async (
   includes: ContentfulIncludes,
   section: RichTextDataTarget
-): Promise<PortfolioSection> => {
+): Promise<PortfolioSection<PortfolioFields>> => {
   const sectionId = section.sys.id;
   const contentfulSectionEntry = await getEntryItemById(
     includes.Entry,
@@ -46,7 +46,7 @@ export const portfolioSectionFromContentfulSection = async (
       id: contentfulSectionEntry.sys.id,
       createdAt: contentfulSectionEntry.sys.createdAt,
       updatedAt: contentfulSectionEntry.sys.updatedAt,
-      contentType: contentfulSectionEntry.sys.contentType.sys.linkType,
+      contentType: contentfulSectionEntry.sys.contentType.sys.id,
     },
     fields: fields,
   };
@@ -159,7 +159,7 @@ const portfolioOneColumnTextFieldsFromContentfulSection = (
 ): OneColumnTextFields => {
   return {
     title: contentfulSection.title,
-    richTextHtml: convertToHtml(contentfulSection.text.content),
+    richTextHtml: contentfulSection.text.content.map(convertToHtml),
     backgroundColourHexCode: contentfulSection.backgroundColourHexCode,
   };
 };

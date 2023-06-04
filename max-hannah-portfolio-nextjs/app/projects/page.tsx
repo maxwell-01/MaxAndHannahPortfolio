@@ -1,15 +1,13 @@
-﻿import { GetProjectDataForHomepage } from '@/src/apis/apis';
-import { Asset } from 'contentful';
+﻿import { GetProjectDataForHomepage } from '../../src/apis/apis';
 
 const Projects = async () => {
-    const project = await GetProjectDataForHomepage();
-    const assets: Array<Asset> = project.includes.Asset;
+  const project = await GetProjectDataForHomepage(10);
 
-    return (
-        <>
-            <div>This is the all projects page.</div>
-        </>
-    );
+  return (
+    <>
+      <div>This is the all projects page.</div>
+    </>
+  );
 };
 
 export default Projects;

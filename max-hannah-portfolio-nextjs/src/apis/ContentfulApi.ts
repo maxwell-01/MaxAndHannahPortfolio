@@ -1,10 +1,12 @@
-﻿import { Entry, EntryCollection } from 'contentful';
-import { ContentfulSectionEntry, Project } from '../types/ContentfulTypes';
+﻿import {
+  ContentfulEntries,
+  ContentfulSectionEntry,
+} from '../types/ContentfulTypes';
 import { ContentfulEntriesApiUrl } from '../urls';
 
 export async function fetchEntriesFromContentful(params?: {
   [key: string]: string;
-}): Promise<EntryCollection<Project>> {
+}): Promise<ContentfulEntries> {
   const accessToken = process.env.CONTENTFUL_DELIVERY_ACCESS_TOKEN;
 
   const paramsUrl =

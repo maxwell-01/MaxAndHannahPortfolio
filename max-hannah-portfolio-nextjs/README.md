@@ -44,7 +44,7 @@ dont have them.
 
 ## Running the application locally
 
-First, run the development server:
+First, run the development server from the project root:
 
 ```bash
 npm run dev

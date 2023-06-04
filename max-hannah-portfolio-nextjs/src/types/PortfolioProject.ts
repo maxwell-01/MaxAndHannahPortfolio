@@ -1,15 +1,20 @@
-﻿import {PortfolioAsset, PortfolioSection} from "./PortfolioTypes";
-
+﻿import {
+  PortfolioAsset,
+  PortfolioMetadata,
+  PortfolioSection,
+} from './PortfolioTypes';
 
 export type PortfolioProjects = {
-    projects: ReadonlyArray<PortfolioProject>;
+  projects: ReadonlyArray<PortfolioProject>;
+  errors?: ReadonlyArray<any>;
 };
 
 export type PortfolioProject = {
-    readonly slug: string;
-    readonly title: string;
-    readonly description: string;
-    readonly thumbnail: PortfolioAsset;
-    readonly featuredImage: PortfolioAsset;
-    readonly sections?: ReadonlyArray<PortfolioSection>;
+  readonly metadata: PortfolioMetadata;
+  readonly slug: string;
+  readonly title: string;
+  readonly description: string;
+  readonly thumbnail: PortfolioAsset;
+  readonly featuredImage: PortfolioAsset;
+  readonly sections?: ReadonlyArray<PortfolioSection>;
 };

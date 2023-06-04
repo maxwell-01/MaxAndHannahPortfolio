@@ -1,13 +1,12 @@
-﻿import {ComponentType} from "react";
-import OneColumnTextComponent from "./components/ContentfulSections/OneColumnTextComponent";
-import FullWidthMediaComponent from "./components/ContentfulSections/FullWidthMediaComponent";
-
+﻿import { ComponentType } from 'react';
+import OneColumnTextComponent from './components/Sections/OneColumnTextComponent';
+import FullWidthMediaComponent from './components/Sections/FullWidthMediaComponent';
 
 type componentMap = {
-    [key: string]: ComponentType<any>;
+  [key: string]: ComponentType<any>;
 };
 
 export const ComponentByContentfulContentTypeId: componentMap = {
-    oneColumnText: OneColumnTextComponent,
-    fullWidthMedia: FullWidthMediaComponent,
+  oneColumnText: OneColumnTextComponent,
+  fullWidthMedia: FullWidthMediaComponent,
 };

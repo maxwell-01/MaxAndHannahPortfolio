@@ -9,5 +9,9 @@ describe('ContentfulEntryCollectionToPortfolioProjects_mapsContentfulDataToPortf
 
     // Assert
     expect(portfolioProjects.projects).toHaveLength(10);
+    expect(
+      portfolioProjects.projects[0].sections![0].metadata.contentType ==
+        'oneColumnText'
+    );
   });
 });

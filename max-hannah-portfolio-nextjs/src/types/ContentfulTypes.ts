@@ -2,7 +2,6 @@
   Asset,
   ContentTypeLink,
   Entry,
-  EntryCollection,
   EnvironmentLink,
   Metadata,
   RichTextData,
@@ -44,15 +43,6 @@ export type ContentfulIncludes = {
   Asset: Array<ApiAsset>;
   Entry: Array<ContentfulSectionEntry>;
 };
-
-export interface SingleContentfulEntry {
-  total: number;
-  skip: number;
-  limit: number;
-  item: Entry<Project>;
-  errors?: Array<any>;
-  includes: ContentfulIncludes;
-}
 
 export interface ApiAsset {
   sys: {
@@ -193,17 +183,4 @@ export interface RichTextContent {
   marks: { type: 'bold' | 'underline' | 'code' | 'italic' }[];
   value?: string;
   nodeType: RichTextNodeType;
-}
-
-export function mapContentfulResponseToSingleContentfulEntry(
-  response: EntryCollection<Project>
-): SingleContentfulEntry {
-  return {
-    total: response.total,
-    skip: response.skip,
-    limit: response.limit,
-    item: response.items[0],
-    errors: response?.errors,
-    includes: response.includes,
-  };
 }

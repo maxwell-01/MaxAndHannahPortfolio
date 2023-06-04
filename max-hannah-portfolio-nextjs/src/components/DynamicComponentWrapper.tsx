@@ -1,23 +1,18 @@
-﻿import {Entry} from "contentful";
-import {ContentfulFields} from "../types/ContentfulTypes";
-import {ComponentByContentfulContentTypeId} from "../ComponentByContentfulContentTypeId";
-import React from "react";
-
+﻿import { ComponentByContentfulContentTypeId } from '../ComponentByContentfulContentTypeId';
+import React from 'react';
+import { PortfolioFields, PortfolioSection } from '../types/PortfolioTypes';
 
 type DynamicComponentWrapperProps = {
-    contentType: string;
-    entry: Entry<ContentfulFields>;
+  contentType: string;
+  section: PortfolioSection<PortfolioFields>;
 };
 const DynamicComponentWrapper = ({
-    contentType,
-    entry,
+  contentType,
+  section,
 }: DynamicComponentWrapperProps) => {
-    return React.createElement(
-        ComponentByContentfulContentTypeId[contentType],
-        {
-            entry,
-        }
-    );
+  return React.createElement(ComponentByContentfulContentTypeId[contentType], {
+    section,
+  });
 };
 
 export default DynamicComponentWrapper;
