@@ -2,15 +2,10 @@
   ApiAsset,
   ContentfulIncludes,
   ContentfulSectionEntry,
-  FullWidthMedia,
   FullWidthMediaEntry,
-  FullWidthSubSection,
   FullWidthSubSectionEntry,
-  IconWithText,
   IconWithTextEntry,
-  OneColumnText,
   OneColumnTextEntry,
-  SubSection,
   SubSectionEntry,
 } from '../types/ContentfulTypes';
 import { RichTextDataTarget } from 'contentful';
@@ -25,7 +20,6 @@ import {
 } from '../types/PortfolioTypes';
 import { getAssetItemById, getEntryItemById } from './ContentfulProjectMapper';
 import { convertToHtml } from './RichTextToHtmlMapper';
-
 export const portfolioSectionFromContentfulSection = async (
   includes: ContentfulIncludes,
   section: RichTextDataTarget
@@ -48,7 +42,7 @@ export const portfolioSectionFromContentfulSection = async (
       updatedAt: contentfulSectionEntry.sys.updatedAt,
       contentType: contentfulSectionEntry.sys.contentType.sys.id,
     },
-    fields: fields,
+    fields,
   };
 };
 
@@ -62,20 +56,9 @@ const GetPortfolioFieldsFromContentfulFields = async (
       'fullWidthMedia'
     )
   ) {
-    let entryItemById = (await getEntryItemById(
-      includes.Entry,
-      contentfulSectionEntry.sys.id
-    )) as FullWidthMediaEntry;
-
-    if (entryItemById.fields.media == undefined) {
-      throw new Error(
-        `No media object on entry of id: ${entryItemById.sys.id}`
-      );
-    }
-
-    return portfolioFullWidthMediaSectionFromContentfulSection(
-      contentfulSectionEntry.fields,
-      getAssetItemById(includes.Asset, entryItemById.fields.media.sys.id)
+    return createFullWidthMediaFields(
+      contentfulSectionEntry as FullWidthMediaEntry,
+      includes
     );
   }
 
@@ -85,9 +68,9 @@ const GetPortfolioFieldsFromContentfulFields = async (
       'fullWidthSubSection'
     )
   ) {
-    return portfolioFullWidthSubSectionFromContentfulSection(
-      includes,
-      contentfulSectionEntry.fields
+    return createFullWidthSubSectionFields(
+      contentfulSectionEntry as FullWidthSubSectionEntry,
+      includes
     );
   }
 
@@ -97,18 +80,9 @@ const GetPortfolioFieldsFromContentfulFields = async (
       'iconWithText'
     )
   ) {
-    let entryItemById = (await getEntryItemById(
-      includes.Entry,
-      contentfulSectionEntry.sys.id
-    )) as IconWithTextEntry;
-
-    if (entryItemById.fields.icon == undefined) {
-      throw new Error(`No icon object on entry of id: ${entryItemById.sys.id}`);
-    }
-
-    return iconWithTextSectionFromContentfulSection(
-      contentfulSectionEntry.fields,
-      getAssetItemById(includes.Asset, entryItemById.fields.icon.sys.id)
+    return createIconWithTextFields(
+      contentfulSectionEntry as IconWithTextEntry,
+      includes
     );
   }
 
@@ -118,8 +92,8 @@ const GetPortfolioFieldsFromContentfulFields = async (
       'oneColumnText'
     )
   ) {
-    return portfolioOneColumnTextFieldsFromContentfulSection(
-      contentfulSectionEntry.fields
+    return createOneColumnTextFields(
+      contentfulSectionEntry as OneColumnTextEntry
     );
   }
 
@@ -129,13 +103,13 @@ const GetPortfolioFieldsFromContentfulFields = async (
       'subSection'
     )
   ) {
-    return portfolioSubSubSectionFromContentfulSection(
-      includes,
-      contentfulSectionEntry.fields
+    return createFullWidthSubSectionFields(
+      contentfulSectionEntry as SubSectionEntry,
+      includes
     );
   }
 
-  throw new Error(`Content not supported.`);
+  throw new Error('Content not supported.');
 };
 
 const matchesContentfulSection = <TEntry extends ContentfulSectionEntry>(
@@ -143,65 +117,74 @@ const matchesContentfulSection = <TEntry extends ContentfulSectionEntry>(
   entryId: string
 ): entry is TEntry => entry.sys.contentType.sys.id === entryId;
 
-const portfolioFullWidthMediaSectionFromContentfulSection = (
-  contentfulSection: FullWidthMedia,
-  asset: ApiAsset
-): FullWidthMediaFields => {
+const createFullWidthMediaFields = async (
+  contentfulSection: FullWidthMediaEntry,
+  includes: ContentfulIncludes
+): Promise<FullWidthMediaFields> => {
+  const media = contentfulSection.fields.media;
+
+  if (!media) {
+    throw new Error(
+      `No media object on entry of id: ${contentfulSection.sys.id}`
+    );
+  }
+
+  const asset = await getAssetItemById(includes.Asset, media.sys.id);
+
   return {
-    title: contentfulSection.title,
-    altText: contentfulSection.altText,
+    title: contentfulSection.fields.title,
+    altText: contentfulSection.fields.altText,
     media: portfolioAssetFromContentfulAsset(asset),
   };
 };
 
-const portfolioOneColumnTextFieldsFromContentfulSection = (
-  contentfulSection: OneColumnText
+const createOneColumnTextFields = (
+  contentfulSection: OneColumnTextEntry
 ): OneColumnTextFields => {
   return {
-    title: contentfulSection.title,
-    richTextHtml: contentfulSection.text.content.map(convertToHtml),
-    backgroundColourHexCode: contentfulSection.backgroundColourHexCode,
+    title: contentfulSection.fields.title,
+    richTextHtml: contentfulSection.fields.text.content.map(convertToHtml),
+    backgroundColourHexCode: contentfulSection.fields.backgroundColourHexCode,
   };
 };
 
-const portfolioFullWidthSubSectionFromContentfulSection = async (
-  includes: ContentfulIncludes,
-  contentfulSection: FullWidthSubSection
+const createFullWidthSubSectionFields = async (
+  contentfulSection: FullWidthSubSectionEntry | SubSectionEntry,
+  includes: ContentfulIncludes
 ): Promise<FullWidthSubSectionFields> => {
+  const sections = contentfulSection.fields.sections ?? [];
+
+  const resolvedSections = await Promise.all(
+    sections.map((section) =>
+      portfolioSectionFromContentfulSection(includes, section)
+    )
+  );
+
   return {
-    title: contentfulSection.title,
-    backgroundColourHexCode: contentfulSection.backgroundColourHexCode,
-    sections: await Promise.all(
-      contentfulSection.sections?.map(async (section) =>
-        portfolioSectionFromContentfulSection(includes, section)
-      ) ?? []
-    ),
+    title: contentfulSection.fields.title,
+    backgroundColourHexCode: contentfulSection.fields.backgroundColourHexCode,
+    sections: resolvedSections,
   };
 };
 
-const portfolioSubSubSectionFromContentfulSection = async (
-  includes: ContentfulIncludes,
-  contentfulSection: SubSection
-): Promise<FullWidthSubSectionFields> => {
-  return {
-    title: contentfulSection.title,
-    backgroundColourHexCode: contentfulSection.backgroundColourHexCode,
-    sections: await Promise.all(
-      contentfulSection.sections?.map(async (section) =>
-        portfolioSectionFromContentfulSection(includes, section)
-      ) ?? []
-    ),
-  };
-};
+const createIconWithTextFields = async (
+  contentfulSection: IconWithTextEntry,
+  includes: ContentfulIncludes
+): Promise<IconWithTextFields> => {
+  const icon = contentfulSection.fields.icon;
 
-const iconWithTextSectionFromContentfulSection = (
-  contentfulSection: IconWithText,
-  asset: ApiAsset
-): IconWithTextFields => {
+  if (!icon) {
+    throw new Error(
+      `No icon object on entry of id: ${contentfulSection.sys.id}`
+    );
+  }
+
+  const asset = await getAssetItemById(includes.Asset, icon.sys.id);
+
   return {
-    title: contentfulSection.title,
+    title: contentfulSection.fields.title,
     icon: portfolioAssetFromContentfulAsset(asset),
-    text: contentfulSection.text,
+    text: contentfulSection.fields.text,
   };
 };
 

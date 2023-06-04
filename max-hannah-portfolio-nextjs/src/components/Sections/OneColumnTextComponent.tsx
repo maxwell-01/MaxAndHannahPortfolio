@@ -16,10 +16,10 @@ const OneColumnTextComponent = ({ section }: Props) => {
       {section.fields.richTextHtml.map((html, index) => (
         <div key={index} dangerouslySetInnerHTML={{ __html: html }} />
       ))}
-      <div className={'list-disc'}>
-        <div>one</div>
-        <div>two</div>
-      </div>
+      <ul className={'list-disc'}>
+        <li>one</li>
+        <li>two</li>
+      </ul>
     </>
   );
 };
