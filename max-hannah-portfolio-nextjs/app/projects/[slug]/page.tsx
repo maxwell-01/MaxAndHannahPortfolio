@@ -1,11 +1,11 @@
-﻿import { GetProjectFromApi } from '../../../src/apis/apis';
+﻿import { GetProject } from '@/src/apis/apis';
 import DynamicComponentWrapper from '../../../src/components/DynamicComponentWrapper';
 
 type Props = {
   params: { slug: string };
 };
 const Page = async ({ params }: Props) => {
-  const project = await GetProjectFromApi(params.slug);
+  const project = await GetProject(params.slug);
   const projectHasSections =
     project.sections?.length && project.sections.length > 0;
 

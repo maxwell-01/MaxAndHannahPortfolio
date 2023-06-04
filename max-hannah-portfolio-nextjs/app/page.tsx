@@ -1,11 +1,11 @@
-﻿import { GetProjectDataForHomepage } from '../src/apis/apis';
+﻿import { GetHomepageProjects } from '../src/apis/apis';
 import { NavMenu } from '../src/components/navMenu/NavMenu';
 import { ProjectCardWithImage } from '../src/components/home/projectCard/ProjectCardWithImage';
 import { ArchiveStrip } from '../src/components/home/archiveStrip/ArchiveStrip';
 import { Footer } from '../src/components/footer/Footer';
 
 export default async function App() {
-  const projects = await GetProjectDataForHomepage(10);
+  const projects = await GetHomepageProjects(10);
 
   const projectsForMainSection = projects.projects.slice(0, 4);
   const projectsForArchiveSection =

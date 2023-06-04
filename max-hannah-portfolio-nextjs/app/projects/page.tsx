@@ -1,7 +1,7 @@
-﻿import { GetProjectDataForHomepage } from '../../src/apis/apis';
+﻿import { GetHomepageProjects } from '../../src/apis/apis';
 
 const Projects = async () => {
-  const project = await GetProjectDataForHomepage(10);
+  const project = await GetHomepageProjects(10);
 
   return (
     <>

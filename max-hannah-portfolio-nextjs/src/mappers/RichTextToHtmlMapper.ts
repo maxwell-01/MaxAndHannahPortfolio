@@ -24,63 +24,39 @@ interface RichTextContent {
 }
 
 export function convertToHtml(richTextContent: RichTextContent): string {
-  let html = '';
+  const nodeTypeMapping: Record<RichTextNodeType, string> = {
+    document: richTextContent.content?.map(convertToHtml).join('') ?? '',
+    'heading-1': `<h1 class="text-2xl font-bold">${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</h1>`,
+    'heading-2': `<h2 class="text-xl font-bold">${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</h2>`,
+    'heading-3': `<h3 class="text-lg font-bold">${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</h3>`,
+    'heading-4': `<h4 class="text-base font-bold">${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</h4>`,
+    paragraph: `<p class="text-base">${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</p>`,
+    text: `<span class="${richTextContent.marks
+      ?.map((mark) => mark.type)
+      .join(' ')}">${richTextContent.value ?? ''}</span>`,
+    'unordered-list': `<ul class="list-disc">${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</ul>`,
+    'ordered-list': `<ol class="list-decimal">${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</ol>`,
+    'list-item': `<li>${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</li>`,
+    blockquote: `<blockquote class="border-l-4 pl-4">${richTextContent.content
+      ?.map(convertToHtml)
+      .join('')}</blockquote>`,
+  };
 
-  switch (richTextContent.nodeType) {
-    case 'document':
-      html += richTextContent.content?.map(convertToHtml).join('') ?? '';
-      break;
-    case 'heading-1':
-      html += `<h1>${richTextContent.content
-        ?.map(convertToHtml)
-        .join('')}</h1>`;
-      break;
-    case 'heading-2':
-      html += `<h2>${richTextContent.content
-        ?.map(convertToHtml)
-        .join('')}</h2>`;
-      break;
-    case 'heading-3':
-      html += `<h3>${richTextContent.content
-        ?.map(convertToHtml)
-        .join('')}</h3>`;
-      break;
-    case 'heading-4':
-      html += `<h4>${richTextContent.content
-        ?.map(convertToHtml)
-        .join('')}</h4>`;
-      break;
-    case 'paragraph':
-      html += `<p>${richTextContent.content?.map(convertToHtml).join('')}</p>`;
-      break;
-    case 'text':
-      const marks = richTextContent.marks.map((mark) => mark.type).join(' ');
-      const value = richTextContent.value ?? '';
-      html += `<span class="${marks}">${value}</span>`;
-      break;
-    case 'unordered-list':
-      html += `<ul class='list-disc'>${richTextContent.content
-        ?.map(convertToHtml)
-        .join('')}</ul>`;
-      break;
-    case 'ordered-list':
-      html += `<ol class='list-decimal'>${richTextContent.content
-        ?.map(convertToHtml)
-        .join('')}</ol>`;
-      break;
-    case 'list-item':
-      html += `<li>${richTextContent.content
-        ?.map(convertToHtml)
-        .join('')}</li>`;
-      break;
-    case 'blockquote':
-      html += `<blockquote>${richTextContent.content
-        ?.map(convertToHtml)
-        .join('')}</blockquote>`;
-      break;
-    default:
-      break;
-  }
-
-  return html;
+  return nodeTypeMapping[richTextContent.nodeType] ?? '';
 }

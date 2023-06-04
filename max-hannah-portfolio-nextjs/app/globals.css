@@ -1,0 +1,9 @@
+﻿@import 'https://use.typekit.net/laz6cpk.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "league spartan";
+    src: url("https://static1.squarespace.com/static/63f75c603ec00c4fc6c10031/t/645b5f7a87931802ecb5ccb6/1683709818141/LeagueSpartan-Bold.otf");
+}

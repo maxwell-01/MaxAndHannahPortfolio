@@ -4,8 +4,9 @@
 } from './ContentfulService';
 import { PortfolioProject, PortfolioProjects } from '../types/PortfolioProject';
 import { ContentfulEntryCollectionToPortfolioProjects } from '../mappers/ContentfulProjectMapper';
+import { ContentfulEntries } from '../types/ContentfulTypes';
 
-export const GetProjectDataForHomepage = async (
+export const GetHomepageProjects = async (
   numberOfProjectsToFetch: number
 ): Promise<PortfolioProjects> => {
   try {
@@ -20,16 +21,12 @@ export const GetProjectDataForHomepage = async (
   }
 };
 
-export const GetProjectFromApi = async (
+export const GetProject = async (
   projectSlug: string
 ): Promise<PortfolioProject> => {
+  let contentfulData: ContentfulEntries;
   try {
-    const contentfulData = await GetContentfulProject(projectSlug);
-    const portfolioData = await ContentfulEntryCollectionToPortfolioProjects(
-      contentfulData
-    );
-
-    return portfolioData.projects[0];
+    contentfulData = await GetContentfulProject(projectSlug);
   } catch (error) {
     throw new ApiError(
       'ApiError',
@@ -38,4 +35,10 @@ export const GetProjectFromApi = async (
       }`
     );
   }
+
+  const portfolioData = await ContentfulEntryCollectionToPortfolioProjects(
+    contentfulData
+  );
+
+  return portfolioData.projects[0];
 };
