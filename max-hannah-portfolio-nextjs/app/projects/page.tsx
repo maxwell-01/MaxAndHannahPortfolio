@@ -1,11 +1,9 @@
-﻿import { GetHomepageProjects } from '../../src/apis/apis';
+﻿import React from 'react';
 
-const Projects = async () => {
-  const project = await GetHomepageProjects(10);
-
+const Projects = () => {
   return (
     <>
-      <div>This is the all projects page.</div>
+      <h1 className="text-3xl font-bold underline">All project page!</h1>
     </>
   );
 };

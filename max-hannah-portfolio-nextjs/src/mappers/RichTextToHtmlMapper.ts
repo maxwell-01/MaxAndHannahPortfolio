@@ -23,6 +23,16 @@ interface RichTextContent {
   nodeType: RichTextNodeType;
 }
 
+const marksClassNames: Record<
+  'bold' | 'underline' | 'code' | 'italic',
+  string
+> = {
+  bold: 'font-bold',
+  underline: 'underline',
+  code: 'font-mono',
+  italic: 'italic',
+};
+
 export function convertToHtml(richTextContent: RichTextContent): string {
   const nodeTypeMapping: Record<RichTextNodeType, string> = {
     document: richTextContent.content?.map(convertToHtml).join('') ?? '',
@@ -42,12 +52,13 @@ export function convertToHtml(richTextContent: RichTextContent): string {
       ?.map(convertToHtml)
       .join('')}</p>`,
     text: `<span class="${richTextContent.marks
-      ?.map((mark) => mark.type)
+      ?.map((mark) => marksClassNames[mark.type])
+      .filter((className) => className)
       .join(' ')}">${richTextContent.value ?? ''}</span>`,
-    'unordered-list': `<ul class="list-disc">${richTextContent.content
+    'unordered-list': `<ul class="p-10 list-disc">${richTextContent.content
       ?.map(convertToHtml)
       .join('')}</ul>`,
-    'ordered-list': `<ol class="list-decimal">${richTextContent.content
+    'ordered-list': `<ol class="p-10 list-decimal">${richTextContent.content
       ?.map(convertToHtml)
       .join('')}</ol>`,
     'list-item': `<li>${richTextContent.content
